@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Habit Tracker
+{% endblock %}
+
+{% block main %}
+<main class="container py-5 text-center">
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <form action="/habits", method="post">
+                    <div class="mb-3">
+                        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="new_task" name="new_task" placeholder="New Task" type="text">
+                        <pre></pre>
+                        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="delete_task" name="delete_task" placeholder="Delete Task" type="text">
+                        <pre></pre>
+                        <b>Set new Start Date:</b>
+                        <pre></pre>
+                            <div class="form-group mx-sm-3 mb-3">
+                                <label for="newstartdate_day" class="sr-only">Day</label>
+                                <input type="text" class="form-inline mx-auto w-auto" id="newstartdate_day" name="newstartdate_day" placeholder="DD">
+                                <label for="newstartdate_day" class="sr-only">Month</label>
+                                <input type="text" class="form-inline mx-auto w-auto" id="newstartdate_month" name="newstartdate_month" placeholder="MM">
+                                <label for="newstartdate_day" class="sr-only">Year</label>
+                                <input type="text" class="form-inline mx-auto w-auto" id="newstartdate_year", name="newstartdate_year" placeholder="YYYY">
+                            </div>
+                        <!-- Example single danger button -->
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+            </tr>
+            <tr>
+                <th class="text-start">Date</th>
+                {% for task in tasks %}
+                    <th class="text-center">{{ task[2] }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <!--This is a comment. Comments are not displayed in the browser-->
+       <tbody>
+        <form action="/habits", method="post">
+        {% autoescape false %}     
+            {% for date in html_checkbox_table %}
+                <tr>
+                    <td class="text-start">{{date[0]}}</td>
+                    {% for entry in date %}
+                    {% if entry is not string %}
+                    <td>
+                        <input type="checkbox" name="checkbox" value="{{ entry.id }}" {{ entry.checked }} {{ entry.bool }} >
+                    </td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        {% endautoescape %}
+        </form>
+        </tbody>
+        <tfoot>
+            <b>{{ element_id_string }}</b>
+        </tfoot>
+    </table>
+</main>
+{% endblock %}
